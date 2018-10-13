@@ -50,7 +50,7 @@ install.packages("devtools")
 And just like that, you've downloaded your first package! How did R know where to look? Unless otherwise specified, R goes to the nearest CRAN mirror and looks there. Devtools is available on the CRAN, so voila it worked!
 
 We're going to download one more package then call lesson 0 over. This package takes a while to download, so hit control + enter then go make yourself a cuppa tea.
-
+```
 # Tidyverse is a 'meta-package' in that all it does is download and organize other packages
 # for you that are built to exist in one big ecosystem--the tidyverse. 
 
