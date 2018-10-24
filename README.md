@@ -17,3 +17,4 @@ A series of lessons I have produced as introductions to R (mostly for social sci
 * Lesson Eleven: Network Data. Emoji. ggplot2 themes.
 * Lesson Twelve: R Shiny Part One
 * Lesson Thirteen: Data frame manipulation with dplyr
+* Lesson Fourteen: Machine Learning One: Neural Net with Logistic Regression
