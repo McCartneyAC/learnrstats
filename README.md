@@ -18,3 +18,5 @@ A series of lessons I have produced as introductions to R (mostly for social sci
 * Lesson Twelve: R Shiny Part One
 * Lesson Thirteen: Data frame manipulation with dplyr
 * Lesson Fourteen: Machine Learning One: Neural Net with Logistic Regression
+* Lesson Fifteen: Scraping twitter (coming soon)
+* Lesson Sixteen: TBD. Post an issue with requests. 
