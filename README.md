@@ -18,7 +18,7 @@ A series of lessons I have produced as introductions to R (mostly for social sci
 * Lesson Twelve: R Shiny Part One
 * Lesson Thirteen: Data frame manipulation with dplyr
 * Lesson Fourteen: Machine Learning One: Neural Net with Logistic Regression
-* Lesson Fifteen: R to HTML via Markdown, ggvis, SjPlot (coming soon)
+* Lesson Fifteen: R to HTML via Markdown, ggvis, SjPlot 
 * Lesson Sixteen: Scraping twitter (coming soon)
 * Lesson Seventeen: Machine Learning Two: Building a Neural Net from Scratch
 * Lesson Eighteen: Machine Learning Three: kmeans and kmodes
