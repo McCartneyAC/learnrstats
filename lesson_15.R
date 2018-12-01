@@ -16,10 +16,6 @@ output:
 
 ```{r setup, include=FALSE}
 # anything that goes in "setup" will be evaluated when you want it to be, but will never appear in your actual output. As the name implies, this is just the normal preparatory stuff you do before your analysis: load packages, load data, define functions. 
-
-## STOP HERE. 
-## IF you don't have these in your library already, you may receive errors. Download these packages with:
-# install.packages("packagename")
 library(ggvis)
 library(rmarkdown)
 library(sjPlot)
@@ -31,27 +27,26 @@ library(extrafont); loadfonts()
 library(ggsci)
 library(psych)
 
-# we want a dataset available for download here:
+
 url1 <- "https://data.humdata.org/dataset/db1630c9-d0cd-44ba-99a3-e77db9173557/resource/f8d88de0-8972-42b8-9bfc-ac7726701273/download/reach_afg_dataset_ahtra_round2_may2018.xlsx"
 
-#but because it's hidden behind a "download data" button, we have some extra steps: 
 
-# get the url into a better format
 httr::GET(url1, write_disk(tf <- tempfile(fileext = ".xlsx")))
 
-# then load that. 
+
+
 reach <- readxl::read_xlsx(tf, 3L)
 
-# the dataset is three pages of an excel document. Page 3 is the data, but page 2 is the codebook: 
+
 codebook <- readxl::read_xlsx(tf, 2L)
 
-# this is a function I wrote to fit in to `select_if`. You'll see it used later. 
+# this is a function I wrote to fit in to `select_if`. You'll see it later. 
 is_extant <-function(x) any(!is.na(x))
 
 # Required for ggvis to work the way we wish
 # # this is a handy function from a user on stack-overflow. This kind of thing is necessary because
 # # ggvis is no longer under development and they literally didn't get around to making an "add_title"
-# # function for the package. Oh how I wish ggvis were still under development! 
+# # function for the package. Oh how I wish ggvis were still under development. 
 add_title <- function(vis, ..., x_lab = "X units", title = "Plot Title") 
 {
   add_axis(vis, "x", title = x_lab) %>% 
@@ -71,9 +66,6 @@ At my job, I need to generate a report on our data collection process 2-3 times 
 #Browse the Data
 
 ```{r browse}
-# note the general flow of rmarkdown: regular markdown in the document, then an evaluated code chunk, then more markdown, etc. 
-
-
 reach %>% 
   select_if(is_extant)
 # this just calls our function from above: it selects only those variables that have data in them. 
@@ -84,7 +76,7 @@ reach %>%
 #Describe the Data
 
 ```{r describe, warning = FALSE, message = FALSE}
-# Here we call in `describe` from the psych:: package, which is a useful way of looking at your whole data set at a glance. fast = TRUE nixes the skew/kurtosis and a few other less useful elements. 
+# Here we call in `describe` from the psych:: package, which is a useful way of looking at your whole data set at a glance. fast = TRUE nixes the skew/kurtosis and a few other less than useful elements. 
 reach %>% 
   select_if(is_extant) %>%
   psych::describe(fast = TRUE)
@@ -97,7 +89,7 @@ We can see all the variables by looking at page 2 of the spreadsheet:
 
 ```{r codebook}
 codebook %>% 
-  select(X__1) # nix everything but the column name variable
+  select(X__1) 
 ```
 
 
@@ -109,8 +101,8 @@ codebook %>%
 We can include regular `ggplot2` plots: 
 
 ```{r plot}
-# we can use some cool features from the tidyverse to select only those variables that are in the
-# education section of the survey: 
+# we can use some cool features from the tidyverse to seelct only those variables that are in the
+# education sectino of the survey: 
 # 
 # # it goes like this: 
 reach_edu <- reach %>%  # make a new dataset that consists of the old dataset, but:
@@ -134,7 +126,7 @@ reach_edu %>%
   guides(fill = FALSE) + 
   ggsci::scale_fill_uchicago() + 
   labs(
-    title = "Why are Afghan girls missing school?",
+    title = "Why are Afghan children missing school?",
     x = "Reason Given", 
     y = "Count"
   ) + 
@@ -184,8 +176,23 @@ model1 <- reach %>%
 tab_model(model1) #from sjPlot package. I'm in love with this feature. I use it constantly now. 
 ```
 
+Let's add a poisson model: 
+```{r modeling2, warning = FALSE, message = FALSE }
+model2 <- reach %>% 
+  rename(pops =`Demographics/What is the number of total population in your community?` ) %>%
+  mutate(pops = as.numeric(pops)) %>% 
+  rename(tchrs = `Education/What is the estimated number of teaching staff working and giving class in your community?`) %>% 
+    mutate(tchrs = as.numeric(tchrs)) %>% 
+  glm(tchrs ~ pops, family = "poisson", data = .) # data = . is a way to include a linear model call at the end of a pipe. the . is a "pronoun" that stands in for whatever the output of the prior call is. 
+
+tab_model(model1, model2) #from sjPlot package. I'm in love with this feature. I use it constantly now. 
+```
+
 
 Huh. that's weird. Why is there a precise zero estimate for population predicting teacher count? Let's graph with `ggvis` to see what the heck is going on:
+
+
+
 
 
 ```{r plot_model, warning = FALSE, message = FALSE }
@@ -208,7 +215,6 @@ summary(model1)
 ```
 
 Ah yes, it seems that it's a very precise but also a very small significant increase that we are seeing. 
-
 #Additional tidbits:
 
 ##Printing from R into output:
@@ -253,5 +259,3 @@ summary(aov(model1))
 If I think of some more things, I'll add them later. 
 
 I firmly believe that outputting R to HTML is going to be the future of how we deal with R. Rmarkdown documents are just as mobile and useful as general r scripts, but the best outputs are being done into HTML because you eliminate the limitations of the plots or console output, making for cleaner, more professional or sophisticated results. Happy reporting. 
-
-Oh! One more thing: you can (and should!) use rmarkdown to embed shiny apps where appropriate. Google around for the small changes needed to make this happen. However, note that once you go shiny, you can't go back: the entire rmarkdown document needs to be in the shiny reactive paradigm thenceforth, so even static graphs still need to be rendered within a shiny syntax for how that works. You unfortunately can't pick and choose (which is why `ggvis`'s remarkable interactivity wasn't featured in this, because I dislike how shiny works in rmarkdown personally. 
