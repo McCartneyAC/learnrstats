@@ -20,4 +20,8 @@ A series of lessons I have produced as introductions to R (mostly for social sci
 * Lesson Fourteen: Machine Learning One: Neural Net with Logistic Regression
 * Lesson Fifteen: R to HTML via Markdown, ggvis, SjPlot (coming soon)
 * Lesson Sixteen: Scraping twitter (coming soon)
-* Lesson Seventeen: TBD. Post an issue with requests. 
+* Lesson Seventeen: Machine Learning Two: Building a Neural Net from Scratch
+* Lesson Eighteen: Machine Learning Three: kmeans and kmodes
+* Lesson Nineteen: Machine Learning Four: Random Forest
+* Lesson Twenty: Websites with R Blogdown
+* Lesson Twenty One: TBD. Post an issue with requests.
