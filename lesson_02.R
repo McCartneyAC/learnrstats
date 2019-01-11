@@ -76,7 +76,7 @@ fibonacci * y
 # in R, any thing surrounded by % % is an infix operator--it goes
 # between its arguments just like + goes between two things you want to add. 
 # if you really wanted to, you could do:
-+(5,7) # later update: this hasn't been evaluating for some people. I'm on the case. 
+`+`(5,7) # note the ` tickmarks 
 # but that just looks wrong. Same thing goes for %>%
 
 
