@@ -56,3 +56,17 @@ solve_quadratic_pos(1,2,-15)
 
 # Google's R style guide recommends against using return() unless you have to
 # but I find that with multi-line functions it helps clear my head 
+
+
+# postscript:
+# for a fully functional quadratic equation solver:
+solve_quadratic<-function(a,b,c){
+  det<-sqrt(as.complex(b^2-4*a*c))
+  numerator<-(-b+det)
+  denom<-(2*a)
+  pos <- numerator/denom
+  numerator<-(-b-det)
+  neg <- numerator/denom
+  result<-c(pos,neg)
+  return(result)
+}
