@@ -12,6 +12,8 @@
 # in the tidyverse also). Dplyr is an R implementation of SQL data manipulations that are fast, 
 # accurate, and easy to understand. 
 
+library(dplyr)
+
 # for today, we're going to use the dataset I was using when I thought of this, but 
 # we're going to access it directly from github, as such: 
 
