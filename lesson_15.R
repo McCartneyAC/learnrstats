@@ -215,6 +215,7 @@ summary(model1)
 ```
 
 Ah yes, it seems that it's a very precise but also a very small significant increase that we are seeing. 
+
 #Additional tidbits:
 
 ##Printing from R into output:
