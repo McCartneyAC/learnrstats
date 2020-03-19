@@ -2,7 +2,7 @@
 
 A series of lessons I have produced as introductions to R (mostly for social sciences). These lessons assume a basic knowledge of the statistics and theory at hand and are meant for someone who wants to practice a skill more than to learn statistical theory. For example, if all you have ever done is statistics with SPSS and you want to up your game, these lessons are for you. 
 
-While not explicitly paired up with this as a curriculum, (Crash Course Statistics)[https://www.youtube.com/playlist?list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr] is a good place to learn the theory. This is a good place to put it into practice. 
+While not explicitly paired up with this as a curriculum, [Crash Course Statistics](https://www.youtube.com/playlist?list=PL8dPuuaLjXtNM_Y-bUAhblSAdWRnmBUcr) is a good place to learn the theory. This is a good place to put it into practice. 
 
 ## Lessons:
 * Lesson Zero: Downloading R. Rstudio. Packages.
