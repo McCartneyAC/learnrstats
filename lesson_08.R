@@ -15,7 +15,7 @@ library(tidyverse)
 install.packages("car")
 library(car)
 
-iqdata<-read_csv("http://people.virginia.edu/~acm9q/iq_data.csv")
+iqdata<-read_csv("https://raw.githubusercontent.com/McCartneyAC/learnrstats/master/data_Files/iq_data.csv")
 iqdata
 
 
@@ -30,7 +30,7 @@ describe(iqdata)
 # groups' iq scores together. By now, ggplot should probably feel pretty
 # famililar, but we're calling a new geom_ in this one: geom_density. 
 iqdata %>% 
-  ggplot(aes(x = iq, color = as.factor(gender))) + 
+  ggplot(aes(x = iq_1_nonverb, color = as.factor(gender))) + 
   geom_density() 
 
 # this kind of sucks, though, becuase we can't tell what 1 and 0 mean for gender
@@ -39,7 +39,7 @@ iqdata %>%
 
 # let's add this: 
 iqdata %>% 
-  ggplot(aes(x = iq, color = as.factor(gender))) + 
+  ggplot(aes(x = iq_1_nonverb, color = as.factor(gender))) + 
   geom_density() + 
   scale_color_manual(labels = c("male", "female"), values = c("orange", "purple"))
 
@@ -51,11 +51,16 @@ iqdata %>%
 # my general instinct is to always go straight to regression, but this is the kind of 
 # question that t-tests were made for and so let's do one for example's sake. 
 
-t.test(iqdata$iq ~ iqdata$gender)
+t.test(iqdata$iq_1_nonverb ~ iqdata$gender)
 
 # what's the effect size? 
 # cohen's d is the difference in means over the pooled sd
-cohen_d <- (116.67 - 110.0136)/sd(iqdata$iq)
+cohen_d <- (116.67 - 110.0136)/sd(iqdata$iq_1_nonverb)
+cohen_d
+# did you get a funny answer like "NA" ?
+# that's because the function "sd" returns NA if ANY of its data points are NA, and in our dataset
+# approx 500 kids didn't get the iq test. so we can make a simple modification: 
+cohen_d <- (116.67 - 110.0136)/sd(iqdata$iq_1_nonverb, na.rm = TRUE)
 cohen_d
 
 # the structure here is the same as regression (i.e. in the formula), 
@@ -74,7 +79,7 @@ cohen_d
 # what about variances? Is the variance of group 1 equal to the variance of group 2? 
 
 # for that we need levene's test
-leveneTest(iq ~ as.factor(gender), data = iqdata)
+leveneTest(iq_1_nonverb ~ as.factor(gender), data = iqdata)
 # note the use of the formula agan. The syntax of all of these should start to feel standard. 
 
 # huh. It looks like the received wisdom doesn't fit the data set. 
@@ -86,7 +91,7 @@ leveneTest(iq ~ as.factor(gender), data = iqdata)
 
 # let's take a second graphical approach to this, using boxplots instead:
 iqdata %>% 
-  ggplot(aes(x = gender, y = iq, color = as.factor(gender))) + 
+  ggplot(aes(x = gender, y = iq_1_nonverb, color = as.factor(gender))) + 
   geom_boxplot() + 
   scale_color_manual(labels = c("male", "female"), values = c("orange", "purple"))
 
@@ -96,7 +101,7 @@ iqdata %>%
 # what I dislike about boxplots is that they don't give a sense of the size of the 
 # datasets and their distribution. Sometimes I do this:
 iqdata %>% 
-  ggplot(aes(x = as.factor(gender), y = iq, color = as.factor(gender))) + 
+  ggplot(aes(x = as.factor(gender), y = iq_1_nonverb, color = as.factor(gender))) + 
   geom_boxplot() + 
   geom_jitter(width = 0.2, alpha = 0.5) +
   scale_color_manual(labels = c("male", "female"), values = c("orange", "purple")) +
